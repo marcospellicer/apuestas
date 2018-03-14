@@ -124,6 +124,7 @@ public class interfaz extends javax.swing.JFrame {
 
         jLabel4.setText("Apuesta");
 
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 8, 1));
         jSpinner2.setAlignmentX(1.0F);
         jSpinner2.setAlignmentY(1.0F);
 
@@ -139,6 +140,7 @@ public class interfaz extends javax.swing.JFrame {
             }
         });
 
+        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 8, 1));
         jSpinner3.setAlignmentX(1.0F);
         jSpinner3.setAlignmentY(1.0F);
 
@@ -223,22 +225,23 @@ public class interfaz extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextArea1)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,6 +297,8 @@ public class interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    if(!jTextField1.getText().equalsIgnoreCase("")&&!jTextField2.getText().equalsIgnoreCase("")){
+   
        jLabel7.setText(jTextField1.getText());
        jLabel6.setText(jTextField2.getText());
         Random r = new Random();
@@ -308,6 +313,9 @@ public class interfaz extends javax.swing.JFrame {
         for (int i = 0; i < jPanel2.getComponents().length; i++) {
             jPanel2.getComponents()[i].setEnabled(false);
         }
+       }else{
+          JOptionPane.showMessageDialog(null, "rellena todos los campos");
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 private boolean estaRepetido(Persona p){
     for (int i = 0; i < apuestas.size(); i++) {
@@ -318,6 +326,7 @@ private boolean estaRepetido(Persona p){
     return false;
 }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      if(!jTextField3.getText().equalsIgnoreCase("")){  
         int l = (int) jSpinner3.getValue();
         int v = (int) jSpinner2.getValue();
         String aux="";
@@ -332,20 +341,36 @@ private boolean estaRepetido(Persona p){
             aux+=apuestas.get(i)+"\n";
         }
         jTextArea1.setText(aux);
+      }else{
+          JOptionPane.showMessageDialog(null, "rellena todos los campos");
+      }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    private double pagado(){
+        double aux=0;
+        for (int i = 0; i < apuestas.size(); i++) {
+            if(apuestas.get(i).isPagado()){
+                aux+=10;
+            }
+        }
+        return aux;
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int l = Integer.parseInt(jLabel10.getText());
         int v = Integer.parseInt(jLabel9.getText());
+        int count=0;
         String aux="LOS GANADORES SON : "+"\n";
+         String aux2="LOS GANADORES QUE NO HAN PAGADO SON : "+"\n";
         for (int i = 0; i < apuestas.size(); i++) {
             if((apuestas.get(i).getGolL()==l)&&(apuestas.get(i).getGolV()==v)&&apuestas.get(i).isPagado()){
-                aux+=apuestas.get(i).getNombre()+" 30€"+"\n";
-            }else if((apuestas.get(i).getGolL()==l)&&(apuestas.get(i).getGolV()==v)&&!apuestas.get(i).isPagado()){
-            aux+=apuestas.get(i).getNombre()+" 0€ POR NO PAGAR LA APUESTA"+"\n";
+                aux+=apuestas.get(i).getNombre()+"\n";
+                count++;
+        }else if((apuestas.get(i).getGolL()==l)&&(apuestas.get(i).getGolV()==v)&&!apuestas.get(i).isPagado()){
+                aux2+=apuestas.get(i).getNombre()+"\n";
+            }
         }
-        }
-        jTextArea1.setText(aux);
+        aux+="recibiran "+(pagado()/count)+"€ cada uno"+"\n";
+        aux2+="recibiran 0€ cada uno";
+        jTextArea1.setText(aux+aux2);
          for (int i = 0; i < jPanel3.getComponents().length; i++) {
             jPanel3.getComponents()[i].setEnabled(false);
         }
